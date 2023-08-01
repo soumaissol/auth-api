@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  auth-api
+
+Transform:
+  - AWS::Serverless-2016-10-31
+
+Parameters:
+  Stage:
+    Type: String
+    Description: Runtime environment
+    Default: staging
+
+Resources:
+  AuthApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Cors:
+        AllowMethods: "'*'"
+        AllowHeaders: "'Content-Type,Accept'"
+        AllowOrigin: "'*'"
+
+  CreateUser:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dist/src/application/web/handlers/create-user.handler
+      FunctionName: PublicApi-CreateUser
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Policies:
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref AuthApi
+            Path: /user
+            Method: POST
+      Environment:
+        Variables:
+          STAGE: !Ref Stage
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Target: 'es2020'
+        Sourcemap: true
+        EntryPoints:
+          - src/application/web/handlers/create-user.ts
+
+Outputs:
+  WebEndpoint:
+    Description: 'API Gateway endpoint URL for Prod stage'
+    Value: !Sub 'https://${AuthApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/'

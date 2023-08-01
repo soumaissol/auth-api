@@ -1,0 +1,21 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": [
+    "esbenp.prettier-vscode",
+    "source.fixAll.eslint"
+  ],
+
+  "files.exclude": {
+    "yarn-error.log": true,
+    "test-report.xml": true,
+    "coverage": true,
+    "node_modules": true,
+    ".build": true,
+    ".serverless": true
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "all",
+  "prettier.printWidth": 120
+}

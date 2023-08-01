@@ -1,0 +1,18 @@
+version = 0.1
+[default]
+[default.build.parameters]
+beta_features = true
+[default.sync.parameters]
+beta_features = true
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "auth-api"
+region = "us-east-1"
+profile = "soumaissol"
+capabilities = "CAPABILITY_IAM"
+disable_rollback = true
+image_repositories = []
+resolve_s3 = true
+s3_prefix = "auth-api"
+confirm_changeset = true
+parameter_overrides = "Stage=\"production\""
