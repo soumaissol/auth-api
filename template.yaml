@@ -15,8 +15,6 @@ Resources:
   UserPool:
     Type: AWS::Cognito::UserPool
     Properties:
-      AdminCreateUserConfig:
-        AllowAdminCreateUserOnly: false
       UserPoolName: SouMaisSolUsers
       UsernameAttributes:
         - email
@@ -63,11 +61,11 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: dist/src/application/web/handlers/create-user.handler
-      FunctionName: PublicApi-CreateUser
+      FunctionName: AuthApi-CreateUser
       Runtime: nodejs18.x
       Architectures:
         - x86_64
-      MemorySize: 128
+      MemorySize: 512
       Timeout: 100
       Events:
         Api:
@@ -76,9 +74,19 @@ Resources:
             RestApiId: !Ref AuthApi
             Path: /user
             Method: POST
+      Policies:
+        - AWSLambdaExecute
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - cognito-idp:AdminCreateUser
+              Resource: !GetAtt 'UserPool.Arn'
       Environment:
         Variables:
           STAGE: !Ref Stage
+          COGNITO_REGION: !Ref 'AWS::Region'
+          COGNITO_USER_POOL_ID: !Ref UserPool
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -91,11 +99,11 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: dist/src/application/web/handlers/get-my-user.handler
-      FunctionName: PublicApi-GetMyUser
+      FunctionName: AuthApi-GetMyUser
       Runtime: nodejs18.x
       Architectures:
         - x86_64
-      MemorySize: 128
+      MemorySize: 512
       Timeout: 100
       Events:
         Api:
@@ -109,7 +117,8 @@ Resources:
       Environment:
         Variables:
           STAGE: !Ref Stage
-          REGION: !Ref 'AWS::Region'
+          COGNITO_REGION: !Ref 'AWS::Region'
+          COGNITO_USER_POOL_ID: !Ref UserPool
     Metadata:
       BuildMethod: esbuild
       BuildProperties:

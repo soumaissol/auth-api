@@ -38,7 +38,7 @@
     "integration-test": "tsc && jest .*\\\\.integration-test\\\\.js$",
     "lint": "eslint . --ext .ts",
     "fix-lint": "eslint . --ext .ts --fix",
-    "invoke:createUser": "sam local invoke -t template.yaml -e events/event-create-user.json -n env.json PublicApi-CreateUser",
-    "invoke:getMyUser": "sam local invoke -t template.yaml -e events/event-get-my-user.json -n env.json PublicApi-GetMyUser"
+    "invoke:createUser": "sam local invoke -t template.yaml -e events/event-create-user.json -n env.json AuthApi-CreateUser",
+    "invoke:getMyUser": "sam local invoke -t template.yaml -e events/event-get-my-user.json -n env.json AuthApi-GetMyUser"
   }
 }

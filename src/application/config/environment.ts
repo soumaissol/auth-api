@@ -11,8 +11,12 @@ const isProduction = (): boolean => {
   return getStage() === Stage.Production;
 };
 
-const getRegion = (): string => {
-  return process.env.REGION!;
+const getCognitoRegion = (): string => {
+  return process.env.COGNITO_REGION!;
 };
 
-export { getRegion, getStage, isProduction, Stage };
+const getCognitoUserPoolId = (): string => {
+  return process.env.COGNITO_USER_POOL_ID!;
+};
+
+export { getCognitoRegion, getCognitoUserPoolId, getStage, isProduction, Stage };
