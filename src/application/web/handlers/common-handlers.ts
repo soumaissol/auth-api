@@ -16,7 +16,7 @@ const defaultHeaders = (): any => {
 const sendHttpOkResponse = (data: any): APIGatewayProxyResult => {
   return {
     statusCode: HttpStatus.OK,
-    body: JSON.stringify(data),
+    body: data ? JSON.stringify(data) : '',
     headers: defaultHeaders(),
   };
 };
@@ -26,7 +26,7 @@ const sendHtttpError = (err: any): APIGatewayProxyResult => {
   logger.error(`catch error ${JSON.stringify(err)}`);
 
   let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
-  let body = JSON.stringify(err?.message || 'Unknow error');
+  let body = JSON.stringify({ message: err?.message || 'Unknow error' });
 
   if (err instanceof InvalidInput) {
     body = JSON.stringify(err);

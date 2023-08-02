@@ -1,0 +1,7 @@
+{
+  "httpMethod": "GET",
+  "body": "{\"test\": \"vai\"}",
+  "headers": {
+    "Authorization": "fake.token"
+  }
+}

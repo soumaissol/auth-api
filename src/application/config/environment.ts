@@ -11,4 +11,8 @@ const isProduction = (): boolean => {
   return getStage() === Stage.Production;
 };
 
-export { getStage, isProduction, Stage };
+const getRegion = (): string => {
+  return process.env.REGION!;
+};
+
+export { getRegion, getStage, isProduction, Stage };
