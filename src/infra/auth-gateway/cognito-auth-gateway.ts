@@ -21,7 +21,6 @@ export default class CoginitoAuthGateway implements AuthGateway {
           UserPoolId: this.userPoolId,
           Username: email,
           DesiredDeliveryMediums: ['EMAIL'],
-          MessageAction: 'RESET',
           // TemporaryPassword: "SouMaisSol@1234", // Use this on future staging environment.
           UserAttributes: [
             {

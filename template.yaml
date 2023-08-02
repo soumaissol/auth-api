@@ -36,14 +36,6 @@ Resources:
       ExplicitAuthFlows:
         - USER_PASSWORD_AUTH
 
-  UserPoolUser2:
-    Type: AWS::Cognito::UserPoolUser
-    Properties:
-      DesiredDeliveryMediums:
-        - EMAIL
-      Username: koqipuz613@vigoneo.com
-      UserPoolId: !Ref UserPool
-
   AuthApi:
     Type: AWS::Serverless::Api
     Properties:
