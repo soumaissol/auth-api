@@ -6,7 +6,7 @@ SouMaisSol auth-api, current integrated in aws cognito for all authentication. T
 - Nvm - [Install nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 - Docker - [Install Docker community edition](https://hub.docker.com/search/?type=edition&offering=community).
 
-You must have aws access configured under the profile `soumaissol`.
+You must have aws access configured under the profile `soumaissol` for prod and `soumaissolstaging` for staging.
 
 ## Install, build and run project
 

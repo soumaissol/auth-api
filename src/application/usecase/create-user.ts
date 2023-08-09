@@ -1,5 +1,6 @@
+import { convertAndValidateInput } from 'sms-api-commons';
+
 import AuthGateway from '../../infra/auth-gateway/auth-gateway';
-import { convertAndValidateInput } from '../dto/input/common-input';
 import CreateUserInput from '../dto/input/create-user-input';
 
 export default class CreateUser {

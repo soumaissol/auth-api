@@ -1,7 +1,8 @@
+import type UserSession from 'sms-api-commons/dist/entity/user-session';
+
 import type AuthUser from '../../domain/entity/auth-user';
-import type LoggedUser from '../../domain/entity/logged-user';
 
 export default interface AuthGateway {
-  getUser(loggedUser: LoggedUser): Promise<AuthUser>;
+  getUser(loggedUser: UserSession): Promise<AuthUser>;
   createUser(email: string): Promise<void>;
 }

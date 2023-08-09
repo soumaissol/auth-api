@@ -1,7 +1,5 @@
 import * as jf from 'joiful';
-
-import InvalidInput from '../../errors/invalid-input';
-import { safelyParseData } from './common-input';
+import { InvalidInput, safelyParseData } from 'sms-api-commons';
 
 export default class CreateUserInput {
   @jf.string().email().required().error(new InvalidInput('invalid email', 'invalid_email'))

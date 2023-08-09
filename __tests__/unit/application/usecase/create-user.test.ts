@@ -1,5 +1,5 @@
-import EmptyInput from '../../../../src/application/errors/empty-input';
-import InvalidInput from '../../../../src/application/errors/invalid-input';
+import { EmptyInput, InvalidInput } from 'sms-api-commons';
+
 import CreateUser from '../../../../src/application/usecase/create-user';
 import type AuthGateway from '../../../../src/infra/auth-gateway/auth-gateway';
 
