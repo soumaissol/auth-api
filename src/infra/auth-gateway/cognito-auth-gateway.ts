@@ -4,13 +4,9 @@ import type {
   AdminInitiateAuthResponse,
   AdminRespondToAuthChallengeResponse,
 } from 'aws-sdk/clients/cognitoidentityserviceprovider';
-import type { JwtPayload } from 'jsonwebtoken';
-import jwt from 'jsonwebtoken';
-import type { UserSession } from 'sms-api-commons';
 import { isProduction, Logger } from 'sms-api-commons';
 
 import AuthSession from '../../domain/entity/auth-session';
-import AuthUser from '../../domain/entity/auth-user';
 import IncorrectEmailOrPassword from '../../domain/errors/incorrect-email-or-password';
 import type AuthGateway from './auth-gateway';
 
@@ -183,24 +179,5 @@ export default class CoginitoAuthGateway implements AuthGateway {
         },
       );
     });
-  }
-
-  getUser(userSession: UserSession): Promise<AuthUser> {
-    const logger = Logger.get();
-
-    let decodedToken: null | JwtPayload = null;
-    try {
-      decodedToken = jwt.decode(userSession.authToken || '', { json: true });
-    } catch (err) {
-      logger.error(`token invalid ${err}`);
-      throw err;
-    }
-
-    if (decodedToken === null) {
-      logger.error('token decoded is null');
-      throw new Error('token decoded is null');
-    }
-
-    return Promise.resolve(new AuthUser(decodedToken.sub || '', decodedToken.email));
   }
 }

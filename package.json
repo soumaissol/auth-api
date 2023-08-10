@@ -8,16 +8,14 @@
     "axios": "^0.24.0",
     "esbuild": "^0.15.13",
     "joiful": "^3.0.2",
-    "jsonwebtoken": "^9.0.1",
     "reflect-metadata": "^0.1.13",
-    "sms-api-commons": "^0.0.20"
+    "sms-api-commons": "^0.0.22"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
     "@types/aws-lambda": "^8.10.119",
     "@types/axios": "^0.14.0",
     "@types/jest": "^27.0.2",
-    "@types/jsonwebtoken": "^9.0.2",
     "@types/node": "^16.11.6",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
@@ -38,5 +36,8 @@
     "fix-lint": "eslint . --ext .ts --fix",
     "invoke:createUser": "sam local invoke -t template.yaml -e events/event-create-user.json -n env.json AuthApi-CreateUser",
     "invoke:getMyUser": "sam local invoke -t template.yaml -e events/event-get-my-user.json -n env.json AuthApi-GetMyUser"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }

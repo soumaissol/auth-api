@@ -10,8 +10,7 @@ export default class GetMyUser {
     if (userSession === null) {
       return null;
     }
-    const authUser = await this.authGateway.getUser(userSession);
 
-    return new GetMyUserOutput(authUser.id, authUser.email);
+    return new GetMyUserOutput(userSession.id, userSession.email, userSession.roles);
   }
 }
