@@ -4,7 +4,14 @@ import HttpStatus from 'http-status-codes';
 
 import constants from './constants';
 
+const email = faker.internet.email();
 describe('IntegrationTest LoginUser', () => {
+  beforeAll(async () => {
+    await axios.post(`${constants.API_URL}/user`, {
+      email,
+    });
+  }, constants.DEFAULT_TIMEOUT);
+
   it(
     'should return error when email is valid',
     async () => {
@@ -27,13 +34,7 @@ describe('IntegrationTest LoginUser', () => {
   it(
     'should return first session when email and password is valid',
     async () => {
-      const email = faker.internet.email();
-      let response = await axios.post(`${constants.API_URL}/user`, {
-        email,
-      });
-      expect(response.status).toBe(HttpStatus.OK);
-
-      response = await axios.post(`${constants.API_URL}/login`, {
+      const response = await axios.post(`${constants.API_URL}/login`, {
         email,
         password: constants.FAKE_PASSWORD,
       });
@@ -50,14 +51,8 @@ describe('IntegrationTest LoginUser', () => {
   it(
     'should return first session when email and password are incorrect',
     async () => {
-      const email = faker.internet.email();
-      let response = await axios.post(`${constants.API_URL}/user`, {
-        email,
-      });
-      expect(response.status).toBe(HttpStatus.OK);
-
       try {
-        response = await axios.post(
+        await axios.post(
           `${constants.API_URL}/login`,
           {
             email,
