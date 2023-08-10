@@ -1,14 +1,7 @@
 import { EmptyInput, InvalidInput } from 'sms-api-commons';
 
 import CreateUser from '../../../../src/application/usecase/create-user';
-import type AuthGateway from '../../../../src/infra/auth-gateway/auth-gateway';
-
-const buildFakeAuthGateway = (): AuthGateway => {
-  return {
-    getUser: jest.fn(),
-    createUser: jest.fn(),
-  };
-};
+import { buildFakeAuthGateway } from '../../utils/fake-auth-gateway';
 
 describe('Test CreateUser usecase', () => {
   it('should return error when input is null', async () => {

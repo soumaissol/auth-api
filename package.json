@@ -10,7 +10,7 @@
     "joiful": "^3.0.2",
     "jsonwebtoken": "^9.0.1",
     "reflect-metadata": "^0.1.13",
-    "sms-api-commons": "^0.0.15"
+    "sms-api-commons": "^0.0.16"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",

@@ -3,14 +3,7 @@ import UserSession from 'sms-api-commons/dist/entity/user-session';
 import GetMyUserOutput from '../../../../src/application/dto/output/get-my-user-output';
 import GetMyUser from '../../../../src/application/usecase/get-my-user';
 import AuthUser from '../../../../src/domain/entity/auth-user';
-import type AuthGateway from '../../../../src/infra/auth-gateway/auth-gateway';
-
-const buildFakeAuthGateway = (): AuthGateway => {
-  return {
-    getUser: jest.fn(),
-    createUser: jest.fn(),
-  };
-};
+import { buildFakeAuthGateway } from '../../utils/fake-auth-gateway';
 
 describe('Test GetMyUser usecase', () => {
   it('should return null when logged user is null', async () => {

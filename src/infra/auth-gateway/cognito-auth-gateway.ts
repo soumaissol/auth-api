@@ -11,6 +11,7 @@ import type UserSession from 'sms-api-commons/dist/entity/user-session';
 
 import AuthSession from '../../domain/entity/auth-session';
 import AuthUser from '../../domain/entity/auth-user';
+import IncorrectEmailOrPassword from '../../domain/errors/incorrect-email-or-password';
 import type AuthGateway from './auth-gateway';
 
 export default class CoginitoAuthGateway implements AuthGateway {
@@ -69,9 +70,13 @@ export default class CoginitoAuthGateway implements AuthGateway {
         },
         (err: AWSError | undefined, data: AdminInitiateAuthResponse) => {
           if (err) {
+            if (err.code === 'NotAuthorizedException') {
+              reject(new IncorrectEmailOrPassword());
+              return;
+            }
             logger.error(`error login user ${err}`);
 
-            reject(err);
+            reject(err); // NotAuthorizedException
             return;
           }
           resolve(

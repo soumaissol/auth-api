@@ -25,7 +25,7 @@ describe('IntegrationTest CreateUser', () => {
   );
 
   it(
-    'should return error when email is valid',
+    'should return OK when email is valid',
     async () => {
       const response = await axios.post(`${constants.API_URL}/user`, {
         email: faker.internet.email(),
