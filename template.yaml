@@ -133,44 +133,44 @@ Resources:
         EntryPoints:
           - src/application/web/handlers/login-user.ts
 
-  # NewPasswordRequiredForUser:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     Handler: dist/src/application/web/handlers/new-password-required-for-user.handler
-  #     FunctionName: AuthApi-NewPasswordRequiredForUser
-  #     Runtime: nodejs18.x
-  #     Architectures:
-  #       - x86_64
-  #     MemorySize: 512
-  #     Timeout: 100
-  #     Events:
-  #       Api:
-  #         Type: Api
-  #         Properties:
-  #           RestApiId: !Ref AuthApi
-  #           Path: /login
-  #           Method: POST
-  #     Policies:
-  #       - AWSLambdaExecute
-  #       - Version: '2012-10-17'
-  #         Statement:
-  #           - Effect: Allow
-  #             Action:
-  #               - cognito-idp:AdminRespondToAuthChallenge
-  #             Resource: !GetAtt 'UserPool.Arn'
-  #     Environment:
-  #       Variables:
-  #         STAGE: !Ref Stage
-  #         COGNITO_REGION: !Ref 'AWS::Region'
-  #         COGNITO_USER_POOL_ID: !Ref UserPool
-  #         COGNITO_USER_CLIENT_ID: !Ref UserPoolTokenClient
-  #   Metadata:
-  #     BuildMethod: esbuild
-  #     BuildProperties:
-  #       Target: 'es2020'
-  #       Sourcemap: true
-  #       EntryPoints:
-  #         - src/application/web/handlers/new-password-required-for-user.ts
+  NewPasswordRequiredForUser:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dist/src/application/web/handlers/new-password-required-for-user.handler
+      FunctionName: AuthApi-NewPasswordRequiredForUser
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Timeout: 100
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref AuthApi
+            Path: /user/password
+            Method: POST
+      Policies:
+        - AWSLambdaExecute
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - cognito-idp:AdminRespondToAuthChallenge
+              Resource: !GetAtt 'UserPool.Arn'
+      Environment:
+        Variables:
+          STAGE: !Ref Stage
+          COGNITO_REGION: !Ref 'AWS::Region'
+          COGNITO_USER_POOL_ID: !Ref UserPool
+          COGNITO_USER_CLIENT_ID: !Ref UserPoolTokenClient
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Target: 'es2020'
+        Sourcemap: true
+        EntryPoints:
+          - src/application/web/handlers/new-password-required-for-user.ts
 
   GetMyUser:
     Type: AWS::Serverless::Function

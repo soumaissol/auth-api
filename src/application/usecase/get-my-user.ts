@@ -1,4 +1,4 @@
-import type UserSession from 'sms-api-commons/dist/entity/user-session';
+import type { UserSession } from 'sms-api-commons';
 
 import AuthGateway from '../../infra/auth-gateway/auth-gateway';
 import GetMyUserOutput from '../dto/output/get-my-user-output';

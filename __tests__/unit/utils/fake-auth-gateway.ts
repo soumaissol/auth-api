@@ -5,6 +5,7 @@ const buildFakeAuthGateway = (): AuthGateway => {
     getUser: jest.fn(),
     createUser: jest.fn(),
     loginUser: jest.fn(),
+    respondToAuthChallenge: jest.fn(),
   };
 };
 

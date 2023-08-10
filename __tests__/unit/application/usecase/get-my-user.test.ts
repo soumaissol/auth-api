@@ -1,4 +1,4 @@
-import UserSession from 'sms-api-commons/dist/entity/user-session';
+import { UserSession } from 'sms-api-commons';
 
 import GetMyUserOutput from '../../../../src/application/dto/output/get-my-user-output';
 import GetMyUser from '../../../../src/application/usecase/get-my-user';

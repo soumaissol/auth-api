@@ -6,8 +6,8 @@ import type {
 } from 'aws-sdk/clients/cognitoidentityserviceprovider';
 import type { JwtPayload } from 'jsonwebtoken';
 import jwt from 'jsonwebtoken';
+import type { UserSession } from 'sms-api-commons';
 import { isProduction, Logger } from 'sms-api-commons';
-import type UserSession from 'sms-api-commons/dist/entity/user-session';
 
 import AuthSession from '../../domain/entity/auth-session';
 import AuthUser from '../../domain/entity/auth-user';
@@ -190,7 +190,7 @@ export default class CoginitoAuthGateway implements AuthGateway {
 
     let decodedToken: null | JwtPayload = null;
     try {
-      decodedToken = jwt.decode(userSession.authToken, { json: true });
+      decodedToken = jwt.decode(userSession.authToken || '', { json: true });
     } catch (err) {
       logger.error(`token invalid ${err}`);
       throw err;
