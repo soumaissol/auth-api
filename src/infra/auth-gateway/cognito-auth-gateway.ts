@@ -73,7 +73,7 @@ export default class CoginitoAuthGateway implements AuthGateway {
             }
             logger.error(`error login user ${err}`);
 
-            reject(err); // NotAuthorizedException
+            reject(err);
             return;
           }
           resolve(

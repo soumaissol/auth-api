@@ -5,4 +5,5 @@ export default interface AuthGateway {
   loginUser(email: string, password: string): Promise<AuthSession>;
   respondToAuthChallenge(email: string, newPassword: string, session: string): Promise<AuthSession>;
   refreshSession(refreshToken: string): Promise<AuthSession>;
+  logout(username: string): Promise<void>;
 }

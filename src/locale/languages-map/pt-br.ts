@@ -13,5 +13,6 @@ const translations = {
   'password must have a symbol': 'senha tem que ter pelo menos caractér especial',
   'invalid refresh token': 'token para renovar a sessão inválido',
   'expired refresh token': 'token para renovar a sessão expirado, faça login novamente',
+  'invalid id': 'id inválido',
 };
 export default translations;

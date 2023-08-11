@@ -13,6 +13,7 @@ const translations = {
   'password must have a symbol': 'password must have a symbol',
   'invalid refresh token': 'invalid refresh token',
   'expired refresh token': 'expired refresh token',
+  'invalid id': 'invalid id',
 };
 
 export default translations;

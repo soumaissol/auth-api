@@ -3,35 +3,36 @@ import axios from 'axios';
 import HttpStatus from 'http-status-codes';
 
 import constants from './constants';
-const email = faker.internet.email();
 
-describe('IntegrationTest GetMyUser', () => {
+const email = faker.internet.email();
+describe('IntegrationTest LogoutUser', () => {
   beforeAll(async () => {
     await axios.post(`${constants.API_URL}/user`, {
       email,
     });
   }, constants.DEFAULT_TIMEOUT);
+
   it(
-    'should return error when auth token is invalid',
+    'should return error when id is valid',
     async () => {
       try {
-        await axios.get(`${constants.API_URL}/user`, {
-          headers: {
-            Authorization: 'Bearer fake.token',
-          },
+        await axios.post(`${constants.API_URL}/logout`, {
+          teste: 'teste',
         });
         expect(true).toBe(false);
       } catch (err) {
         expect(err).toHaveProperty('response');
         const response = (err as any).response;
-        expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
-        expect(response.data.message).toBeDefined();
+        expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+        expect(response.data.code).toBe('invalid_id');
+        expect(response.data.message).toBe('invalid id');
       }
     },
     constants.DEFAULT_TIMEOUT,
   );
+
   it(
-    'should return first session when email and password is valid',
+    'should return logout user when id is valid',
     async () => {
       let response = await axios.post(`${constants.API_URL}/login`, {
         email,
@@ -64,9 +65,12 @@ describe('IntegrationTest GetMyUser', () => {
       });
       expect(response.status).toBe(HttpStatus.OK);
       expect(response.data.id).toBeDefined();
-      expect(response.data.email).toBe(email);
-      expect(response.data.roles).toEqual(['user']);
+
+      response = await axios.post(`${constants.API_URL}/logout`, {
+        id: response.data.id,
+      });
+      expect(response.status).toBe(HttpStatus.OK);
     },
-    3 * constants.DEFAULT_TIMEOUT,
+    4 * constants.DEFAULT_TIMEOUT,
   );
 });
