@@ -1,8 +1,5 @@
-import { UserSession } from 'sms-api-commons';
-
 import GetMyUserOutput from '../../../../src/application/dto/output/get-my-user-output';
 import GetMyUser from '../../../../src/application/usecase/get-my-user';
-import AuthUser from '../../../../src/domain/entity/auth-user';
 import { buildFakeAuthGateway } from '../../utils/fake-auth-gateway';
 
 describe('Test GetMyUser usecase', () => {

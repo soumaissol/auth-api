@@ -7,6 +7,7 @@ import type {
 import { isProduction, Logger } from 'sms-api-commons';
 
 import AuthSession from '../../domain/entity/auth-session';
+import ExpiredRefreshToken from '../../domain/errors/expired-refresh-token';
 import IncorrectEmailOrPassword from '../../domain/errors/incorrect-email-or-password';
 import type AuthGateway from './auth-gateway';
 
@@ -140,8 +141,12 @@ export default class CoginitoAuthGateway implements AuthGateway {
         },
         (err: AWSError | undefined, data: AdminInitiateAuthResponse) => {
           if (err) {
-            logger.error(`error login user ${err}`);
+            if (err.code === 'NotAuthorizedException') {
+              reject(new ExpiredRefreshToken());
+              return;
+            }
 
+            logger.error(`error refresh token ${err}`);
             reject(err);
             return;
           }

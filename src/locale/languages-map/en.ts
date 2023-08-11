@@ -11,6 +11,8 @@ const translations = {
   'password must have a lower case': 'password must have a lower case',
   'password must have a upper case': 'password must have a upper case',
   'password must have a symbol': 'password must have a symbol',
+  'invalid refresh token': 'invalid refresh token',
+  'expired refresh token': 'expired refresh token',
 };
 
 export default translations;

@@ -4,7 +4,7 @@ import AuthGateway from '../../infra/auth-gateway/auth-gateway';
 import LoginUserInput from '../dto/input/login-user-input';
 import LoginUserOutput from '../dto/output/login-user-output';
 
-export default class LoginUSer {
+export default class LoginUser {
   constructor(readonly authGateway: AuthGateway) {}
 
   async execute(input: any): Promise<LoginUserOutput> {

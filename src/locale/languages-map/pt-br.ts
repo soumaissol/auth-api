@@ -11,5 +11,7 @@ const translations = {
   'password must have a lower case': 'senha tem que ter pelo menos uma letra minúscula',
   'password must have a upper case': 'senha tem que ter pelo menos uma letra maiúscula',
   'password must have a symbol': 'senha tem que ter pelo menos caractér especial',
+  'invalid refresh token': 'token para renovar a sessão inválido',
+  'expired refresh token': 'token para renovar a sessão expirado, faça login novamente',
 };
 export default translations;
