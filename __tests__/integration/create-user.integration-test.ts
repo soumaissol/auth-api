@@ -34,4 +34,16 @@ describe('IntegrationTest CreateUser', () => {
     },
     constants.DEFAULT_TIMEOUT,
   );
+
+  it(
+    'should resend email when user with same email is created again',
+    async () => {
+      const email = faker.internet.email();
+      let response = await axios.post(`${constants.API_URL}/user`, { email });
+      expect(response.status).toBe(HttpStatus.OK);
+      response = await axios.post(`${constants.API_URL}/user`, { email });
+      expect(response.status).toBe(HttpStatus.OK);
+    },
+    2 * constants.DEFAULT_TIMEOUT,
+  );
 });

@@ -16,6 +16,7 @@ const translations = {
   'invalid id': 'invalid id',
   'no user to reset password': 'no user to reset password',
   'email not verified to reset password': 'email not verified to reset password',
+  'must create password first': 'must create password first',
 };
 
 export default translations;

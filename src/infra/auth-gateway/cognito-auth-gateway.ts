@@ -10,6 +10,7 @@ import AuthSession from '../../domain/entity/auth-session';
 import EmailNotVerifiedToResetPassword from '../../domain/errors/email-not-verified-to-reset-password';
 import ExpiredRefreshToken from '../../domain/errors/expired-refresh-token';
 import IncorrectEmailOrPassword from '../../domain/errors/incorrect-email-or-password';
+import MustCreatePasswordFirst from '../../domain/errors/must-create-password-first';
 import NoUserToResetPassword from '../../domain/errors/no-user-to-reset-password';
 import type AuthGateway from './auth-gateway';
 
@@ -23,33 +24,47 @@ export default class CoginitoAuthGateway implements AuthGateway {
     const logger = Logger.get();
     const cognito = new CognitoIdentityServiceProvider({ region: this.region });
     return new Promise((resolve, reject) => {
-      cognito.adminCreateUser(
-        {
-          UserPoolId: this.userPoolId,
-          Username: email,
-          DesiredDeliveryMediums: ['EMAIL'],
-          TemporaryPassword: isProduction() ? undefined : 'SouMaisSol@1234', // for integration tests
-          UserAttributes: [
-            {
-              Name: 'email',
-              Value: email,
-            },
-            {
-              Name: 'custom:role',
-              Value: 'user',
-            },
-          ],
-        },
-        (err: AWSError | undefined) => {
-          if (err) {
-            logger.error(`error creating user ${err}`);
+      const params: CognitoIdentityServiceProvider.Types.AdminCreateUserRequest = {
+        UserPoolId: this.userPoolId,
+        Username: email,
+        DesiredDeliveryMediums: ['EMAIL'],
+        TemporaryPassword: isProduction() ? undefined : 'SouMaisSol@1234', // for integration tests
+        UserAttributes: [
+          {
+            Name: 'email',
+            Value: email,
+          },
+          {
+            Name: 'custom:role',
+            Value: 'user',
+          },
+          {
+            Name: 'email_verified',
+            Value: 'true',
+          },
+        ],
+      };
+      cognito.adminCreateUser(params, (err: AWSError | undefined) => {
+        if (err) {
+          if (err.code === 'UsernameExistsException') {
+            cognito.adminCreateUser({ ...params, MessageAction: 'RESEND' }, (err: AWSError | undefined) => {
+              if (err) {
+                logger.error(`error creating user ${err}`);
 
-            reject(err);
+                reject(err);
+                return;
+              }
+              resolve();
+            });
             return;
           }
-          resolve();
-        },
-      );
+          logger.error(`error creating user ${err}`);
+
+          reject(err);
+          return;
+        }
+        resolve();
+      });
     });
   }
 
@@ -207,6 +222,11 @@ export default class CoginitoAuthGateway implements AuthGateway {
               reject(new EmailNotVerifiedToResetPassword());
               return;
             }
+            if (err.code === 'NotAuthorizedException' && err.message.indexOf('current state') !== -1) {
+              reject(new MustCreatePasswordFirst());
+              return;
+            }
+
             logger.error(`error resetUserPassword ${err}`);
 
             reject(err);

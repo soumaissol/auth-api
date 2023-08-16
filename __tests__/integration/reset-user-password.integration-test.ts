@@ -61,7 +61,54 @@ describe('IntegrationTest ResetUserPassword', () => {
   );
 
   it(
-    'should return error user when user email is not verified',
+    'should return error when user has no password',
+    async () => {
+      const newUserEmail = faker.internet.email();
+
+      let response = await axios.post(`${constants.API_URL}/user`, {
+        email: newUserEmail,
+      });
+      expect(response.status).toBe(HttpStatus.OK);
+
+      response = await axios.post(`${constants.API_URL}/login`, {
+        email,
+        password: constants.FAKE_PASSWORD,
+      });
+      expect(response.status).toBe(HttpStatus.OK);
+      expect(response.data.token).toBeNull();
+      expect(response.data.refreshToken).toBeNull();
+      expect(response.data.expiresIn).toBeNull();
+      expect(response.data.challenge).toBeDefined();
+      expect(response.data.session).toBeDefined();
+
+      try {
+        await axios.post(
+          `${constants.API_URL}/user/password/reset`,
+          {
+            email,
+          },
+          {
+            headers: {
+              'Accept-Language': constants.PTBR_ACCEPTED_LANGUAGE,
+            },
+          },
+        );
+        expect(true).toBe(false);
+      } catch (err) {
+        expect(err).toHaveProperty('response');
+        const response = (err as any).response;
+        expect(response.status).toBe(HttpStatus.BAD_REQUEST);
+        expect(response.data.code).toBe('must_create_password_first');
+        expect(response.data.message).toBe(
+          'usuário sem senha, por favor, crie um usuário com este e-mail novamente para receber uma senha temporária',
+        );
+      }
+    },
+    3 * constants.DEFAULT_TIMEOUT,
+  );
+
+  it(
+    'should return OK when user email is verified',
     async () => {
       let response = await axios.post(`${constants.API_URL}/login`, {
         email,
@@ -87,26 +134,18 @@ describe('IntegrationTest ResetUserPassword', () => {
       expect(response.data.challenge).toBeNull();
       expect(response.data.session).toBeNull();
 
-      try {
-        await axios.post(
-          `${constants.API_URL}/user/password/reset`,
-          {
-            email,
+      response = await axios.post(
+        `${constants.API_URL}/user/password/reset`,
+        {
+          email,
+        },
+        {
+          headers: {
+            'Accept-Language': constants.PTBR_ACCEPTED_LANGUAGE,
           },
-          {
-            headers: {
-              'Accept-Language': constants.PTBR_ACCEPTED_LANGUAGE,
-            },
-          },
-        );
-        expect(true).toBe(false);
-      } catch (err) {
-        expect(err).toHaveProperty('response');
-        const response = (err as any).response;
-        expect(response.status).toBe(HttpStatus.BAD_REQUEST);
-        expect(response.data.code).toBe('email_not_verified_to_reset_password');
-        expect(response.data.message).toBe('usuário sem email verificadopara resetar senha');
-      }
+        },
+      );
+      expect(response.status).toBe(HttpStatus.OK);
     },
     3 * constants.DEFAULT_TIMEOUT,
   );

@@ -16,5 +16,7 @@ const translations = {
   'invalid id': 'id inválido',
   'no user to reset password': 'usuário não encontrado para resetar senha, por favor, crie um usuário com esse email',
   'email not verified to reset password': 'usuário sem email verificadopara resetar senha',
+  'must create password first':
+    'usuário sem senha, por favor, crie um usuário com este e-mail novamente para receber uma senha temporária',
 };
 export default translations;
