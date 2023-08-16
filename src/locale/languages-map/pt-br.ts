@@ -18,5 +18,7 @@ const translations = {
   'email not verified to reset password': 'usuário sem email verificadopara resetar senha',
   'must create password first':
     'usuário sem senha, por favor, crie um usuário com este e-mail novamente para receber uma senha temporária',
+  'invalid confirmation code': 'código de confirmação inválido',
+  'wrong confirmation code': 'código de confirmação errado',
 };
 export default translations;

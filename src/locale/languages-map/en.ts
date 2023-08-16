@@ -17,6 +17,8 @@ const translations = {
   'no user to reset password': 'no user to reset password',
   'email not verified to reset password': 'email not verified to reset password',
   'must create password first': 'must create password first',
+  'invalid confirmation code': 'invalid confirmation code',
+  'wrong confirmation code': 'wrong confirmation code',
 };
 
 export default translations;

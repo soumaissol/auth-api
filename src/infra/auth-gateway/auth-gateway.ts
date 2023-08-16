@@ -7,4 +7,5 @@ export default interface AuthGateway {
   refreshSession(refreshToken: string): Promise<AuthSession>;
   logout(username: string): Promise<void>;
   resetUserPassword(username: string): Promise<void>;
+  confirmResetPassword(username: string, confirmationCode: string, password: string): Promise<void>;
 }

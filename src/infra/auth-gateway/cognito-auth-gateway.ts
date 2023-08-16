@@ -12,6 +12,7 @@ import ExpiredRefreshToken from '../../domain/errors/expired-refresh-token';
 import IncorrectEmailOrPassword from '../../domain/errors/incorrect-email-or-password';
 import MustCreatePasswordFirst from '../../domain/errors/must-create-password-first';
 import NoUserToResetPassword from '../../domain/errors/no-user-to-reset-password';
+import WrongConfirmationCode from '../../domain/errors/wrong-confirmation-code';
 import type AuthGateway from './auth-gateway';
 
 export default class CoginitoAuthGateway implements AuthGateway {
@@ -251,6 +252,10 @@ export default class CoginitoAuthGateway implements AuthGateway {
         },
         (err: AWSError | undefined) => {
           if (err) {
+            if (err.code === 'ExpiredCodeException') {
+              reject(new WrongConfirmationCode());
+              return;
+            }
             logger.error(`error confirmResetPassword ${err}`);
 
             reject(err);
