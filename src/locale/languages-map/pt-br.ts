@@ -14,5 +14,7 @@ const translations = {
   'invalid refresh token': 'token para renovar a sessão inválido',
   'expired refresh token': 'token para renovar a sessão expirado, faça login novamente',
   'invalid id': 'id inválido',
+  'no user to reset password': 'usuário não encontrado para resetar senha, por favor, crie um usuário com esse email',
+  'email not verified to reset password': 'usuário sem email verificadopara resetar senha',
 };
 export default translations;

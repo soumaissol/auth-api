@@ -1,7 +1,6 @@
 import { EmptyInput, InvalidInput } from 'sms-api-commons';
 
 import LogoutUser from '../../../../src/application/usecase/logout-user';
-import AuthSession from '../../../../src/domain/entity/auth-session';
 import { buildFakeAuthGateway } from '../../utils/fake-auth-gateway';
 
 describe('Test LogoutUser usecase', () => {

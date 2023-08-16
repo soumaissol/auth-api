@@ -1,5 +1,6 @@
 import { convertAndValidateInput } from 'sms-api-commons';
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import AuthGateway from '../../infra/auth-gateway/auth-gateway';
 import RefreshUserSessionInput from '../dto/input/refresh-user-session-input';
 import RefreshUserSessionOutput from '../dto/output/refresh-user-session-output';

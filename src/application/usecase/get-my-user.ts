@@ -1,5 +1,6 @@
 import type { UserSession } from 'sms-api-commons';
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import AuthGateway from '../../infra/auth-gateway/auth-gateway';
 import GetMyUserOutput from '../dto/output/get-my-user-output';
 

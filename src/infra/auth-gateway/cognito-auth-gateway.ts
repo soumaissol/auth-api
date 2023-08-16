@@ -7,8 +7,10 @@ import type {
 import { isProduction, Logger } from 'sms-api-commons';
 
 import AuthSession from '../../domain/entity/auth-session';
+import EmailNotVerifiedToResetPassword from '../../domain/errors/email-not-verified-to-reset-password';
 import ExpiredRefreshToken from '../../domain/errors/expired-refresh-token';
 import IncorrectEmailOrPassword from '../../domain/errors/incorrect-email-or-password';
+import NoUserToResetPassword from '../../domain/errors/no-user-to-reset-password';
 import type AuthGateway from './auth-gateway';
 
 export default class CoginitoAuthGateway implements AuthGateway {
@@ -175,7 +177,61 @@ export default class CoginitoAuthGateway implements AuthGateway {
         },
         (err: AWSError | undefined) => {
           if (err) {
-            logger.error(`error login user ${err}`);
+            logger.error(`error logout user ${err}`);
+
+            reject(err);
+            return;
+          }
+          resolve();
+        },
+      );
+    });
+  }
+
+  resetUserPassword(username: string): Promise<void> {
+    const logger = Logger.get();
+    const cognito = new CognitoIdentityServiceProvider({ region: this.region });
+    return new Promise((resolve, reject) => {
+      cognito.adminResetUserPassword(
+        {
+          Username: username,
+          UserPoolId: this.userPoolId,
+        },
+        (err: AWSError | undefined) => {
+          if (err) {
+            if (err.code === 'UserNotFoundException') {
+              reject(new NoUserToResetPassword());
+              return;
+            }
+            if (err.code === 'InvalidParameterException' && err.message.indexOf('verified') !== -1) {
+              reject(new EmailNotVerifiedToResetPassword());
+              return;
+            }
+            logger.error(`error resetUserPassword ${err}`);
+
+            reject(err);
+            return;
+          }
+          resolve();
+        },
+      );
+    });
+  }
+
+  confirmResetPassword(username: string, confirmationCode: string, password: string): Promise<void> {
+    const logger = Logger.get();
+    const cognito = new CognitoIdentityServiceProvider({ region: this.region });
+    return new Promise((resolve, reject) => {
+      cognito.confirmForgotPassword(
+        {
+          Username: username,
+          ConfirmationCode: confirmationCode,
+          ClientId: this.userClientId,
+          Password: password,
+        },
+        (err: AWSError | undefined) => {
+          if (err) {
+            logger.error(`error confirmResetPassword ${err}`);
 
             reject(err);
             return;

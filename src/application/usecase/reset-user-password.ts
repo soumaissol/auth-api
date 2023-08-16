@@ -2,14 +2,14 @@ import { convertAndValidateInput } from 'sms-api-commons';
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import AuthGateway from '../../infra/auth-gateway/auth-gateway';
-import CreateUserInput from '../dto/input/create-user-input';
+import ResetUserPasswordInput from '../dto/input/reset-user-password-input';
 
-export default class CreateUser {
+export default class ResetUserPassword {
   constructor(readonly authGateway: AuthGateway) {}
 
   async execute(input: any): Promise<void> {
-    const validInput = convertAndValidateInput<CreateUserInput>(input, new CreateUserInput(input));
+    const validInput = convertAndValidateInput<ResetUserPasswordInput>(input, new ResetUserPasswordInput(input));
 
-    await this.authGateway.createUser(validInput.email);
+    await this.authGateway.resetUserPassword(validInput.email);
   }
 }

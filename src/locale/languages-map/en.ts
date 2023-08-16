@@ -14,6 +14,8 @@ const translations = {
   'invalid refresh token': 'invalid refresh token',
   'expired refresh token': 'expired refresh token',
   'invalid id': 'invalid id',
+  'no user to reset password': 'no user to reset password',
+  'email not verified to reset password': 'email not verified to reset password',
 };
 
 export default translations;

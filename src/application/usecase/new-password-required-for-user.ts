@@ -1,6 +1,7 @@
 import { convertAndValidateInput } from 'sms-api-commons';
 
 import UserNewPassword from '../../domain/entity/user-new-password';
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import AuthGateway from '../../infra/auth-gateway/auth-gateway';
 import NewPasswordRequiredForUserInput from '../dto/input/new-password-required-for-user-input';
 import NewPasswordRequiredForUserOutput from '../dto/output/new-password-required-for-user-output';

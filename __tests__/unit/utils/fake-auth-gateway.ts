@@ -7,6 +7,7 @@ const buildFakeAuthGateway = (): AuthGateway => {
     respondToAuthChallenge: jest.fn(),
     refreshSession: jest.fn(),
     logout: jest.fn(),
+    resetUserPassword: jest.fn(),
   };
 };
 
